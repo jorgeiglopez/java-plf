@@ -71,6 +71,24 @@ Bias toward **short and focused** over long and sprawling.
   services. A test must pass/fail for the right reason every run.
 - **Fail loudly.** Prefer exercises whose correctness is checked by assertions,
   unit tests, or an explicit "expected output" the student commits to first.
+- **Minimal comments — `PROBLEM.md` does the talking (DRY).** All explanation,
+  framing, and narrative live in `PROBLEM.md`, never in the `.java` scaffolds or
+  tests. No "what this does" prose, no Javadoc essays, no comment that restates the
+  code, narrates the trap, or duplicates `PROBLEM.md`/`SOLUTION.md`. A comment earns
+  its place in code **only** if it does one of exactly three things:
+    - **(A) Nudge** — points the student to exactly where they act: an orientation
+      marker like `// <-- Task 1 here`, `// <-- change this`,
+      `// <-- write your prediction`.
+    - **(B) Critical info** — adds non-obvious information needed to understand the
+      problem that is *not* already in `PROBLEM.md` (e.g. a constraint the code
+      can't express). Rare; prefer `PROBLEM.md`.
+    - **(C) Restriction** — marks what the student must **not** touch, e.g.
+      `// ---- EDIT ONLY THESE LINES ----`, `// do not modify below`.
+
+  **Less is always better — when in doubt, delete.** Don't multiply restriction
+  banners; one per region. The single required marker is `// EXERCISE: starts red`
+  on every intentionally-red test (§5). If code needs a paragraph to explain, that
+  paragraph belongs in `PROBLEM.md`.
 
 ---
 
@@ -118,8 +136,10 @@ Breaking these breaks the whole project's build for everyone. Follow exactly.
    `throw new UnsupportedOperationException("TODO")` (or a TODO comment + a
    harmless default) so `mvn compile` stays green.
 2. **"Fix the failing test" tests MUST COMPILE but may FAIL.** That's their job.
-   Mark them clearly (file comment + a `// EXERCISE: this test starts red`).
-   Place them under `src/test/java/plf/...` mirroring the package path.
+   Mark each red test with the exact marker `// EXERCISE: starts red` — verbatim,
+   don't reword it (reviewers and tooling grep for that literal string). No extra
+   narrative file comment. Place them under `src/test/java/plf/...` mirroring the
+   package path.
 3. **Code that is *supposed* not to compile lives ONLY in markdown fences**
    inside `PROBLEM.md`/`SOLUTION.md`. Never commit a non-compiling `.java` file —
    it poisons the build. (So "predict the compiler error" exercises are
@@ -300,6 +320,11 @@ plus a test, because the topic is hard.
       snippets live in markdown only.
 - [ ] Exercises are short, deterministic, offline, and gotcha-focused.
 - [ ] Difficulty and scaffolding scale with the topic.
+- [ ] `.java`/test files carry **only** comments that (A) nudge to where the
+      student acts, (B) add critical non-obvious info, or (C) mark what's off-limits
+      — no narrative, no code-restating prose, nothing duplicating `PROBLEM.md`.
+      Less is better. Plus the required `// EXERCISE: starts red` marker (verbatim)
+      on every red test.
 
 Stay in your assigned section. If you spot something off elsewhere, note it in one
 sentence and move on.
