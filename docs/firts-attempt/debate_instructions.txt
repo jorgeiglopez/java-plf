@@ -1,0 +1,25 @@
+▎ Orchestrate authoring of sections 4–8, one section at a time, SEQUENTIALLY:
+▎ s04_functional_streams → s05_collections → s06_concurrency → s07_jmm → s08_jvm_internals.
+▎
+▎ For each section: read its sub-topics + Covers: lines from src/main/java/plf/s00_index/index.md, then run the debate loop below over every sub-topic. Follow @EXERCISE_AUTHORING.md exactly — build rules §5, the A/B/C comment rule §3, templates §6/§7.
+▎
+▎ Per sub-topic — multi-round adversarial debate, then write:
+▎ The three personas debate in rounds, each agent speaking up to 3 times (≤3 rounds), every turn seeing the full running transcript so they genuinely respond to and sharpen each other. The Writer ends the debate early once the design has converged —
+▎ there's no need to use all rounds, but never exceed 3 turns per agent.
+▎ - Round 1 (open): SSWE → Teacher → Gilfoyle each stake out their angle.
+▎ - Round 2 (rebut): each answers the others — SSWE checks the trap is technically real, Teacher defends learnability, Gilfoyle attacks anything boring.
+▎ - Round 3 (converge, optional): resolve open disagreements; lock the exercise type, the gotcha, and how correctness is checked.
+▎
+▎ Persona concerns:
+▎ - SSWE — depth & accuracy: the real mechanism (JLS / Effective Java); the trap must reflect actual Java 21 behavior.
+▎ - Teacher — learnability & creativity: one crisp objective, a memorable hook, the right difficulty ramp.
+▎ - Gilfoyle — the trap: a devious, real gotcha that makes a smug mid-level engineer confidently write the wrong answer.
+▎
+▎ Then the Writer (silent observer → mediator → final call) synthesizes and writes PROBLEM.md + SOLUTION.md (+ compiling scaffold / red test where needed), and deletes the leaf .gitkeep. The Writer weighs every voice but isn't obligated to use every suggestion.
+▎
+▎ Execution rules:
+▎ - All agents — debaters and Writer — run on Opus. Quality is the priority.
+▎ - Sub-topics within a section run in parallel.
+▎ - Writers do NOT run mvn (parallel builds collide on the jansi lock) after the section is done.
+▎ - After each section's writers finish with exercises, then the Writer runs one mvn -q test-compile, then mvn -q -Dtest='plf.s0N_*.**' test — confirm 0 compile errors and that only `// EXERCISE: starts red` tests fail. Writer reports the trap table + build result before starting the next section.
+▎ - Deterministic & offline is mandatory — especially load-bearing for s06/s07/s08: reproduce concurrency/JMM bugs deterministically (latches/barriers, no flaky timing, no sleep-based races). Harder concepts get richer scaffolds.
