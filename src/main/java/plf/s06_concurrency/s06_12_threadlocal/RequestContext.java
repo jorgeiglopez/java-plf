@@ -25,7 +25,15 @@ public final class RequestContext {
     }
 
     public static String handleLoginSafely(ExecutorService pool, String userId) {
-        throw new UnsupportedOperationException("TODO"); // <-- Task here
+        Future<String> f = pool.submit(() -> {
+            try {
+                CURRENT_USER.set(userId);
+                return CURRENT_USER.get();
+            } finally {
+                CURRENT_USER.remove();
+            }
+        });
+        return await(f);
     }
 
     private static String await(Future<String> f) {
